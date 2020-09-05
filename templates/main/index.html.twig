@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annonces{% endblock %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"/>
+{% endblock %}
+
+
+{% block body %}
+{% for annonce1 in annonce %}
+<div class="container">
+    <div class="card shadow-1 fx-row">
+    <div class="primary d-flex vcenter fx-center px-4">
+         <a href="{{ path('annonce_detail', {slug: annonce1.slug}) }}"><img src="{{ asset('uploads/' ~ annonce1.image[0].name)|imagine_filter('square') }}" alt="{{ annonce1.title }}"/></a>
+    </div>
+    <div class="flex fx-col fx-grow">
+        <div class="card-header"><a href="{{ path('annonce_detail', {slug: annonce1.slug}) }}">{{ annonce1.title }}</a></div>
+        <div class="card-content">
+            <p>Categorie: {{ annonce1.categorie.name }}</p>
+            <p>{{ annonce1.content|striptags|u.truncate(50, '...') }}</p>
+            <div class="txt-green">
+                {% if is_granted("ROLE_USER") %}
+                    {% for favoris in annonce1.favorite %}
+                        {% if favoris.id == app.user.id %}
+                            <a href="{{ path('annonce_remove_favorite', {id: annonce1.id}) }}"><i class="fas fa-heart"></i></a>
+                        {% else %}
+                            <a href="{{ path('annonce_add_favorite', {id: annonce1.id}) }}"><i class="far fa-heart"></i></a>
+                        {% endif %}
+                {% else %}
+                    <a href="{{ path('annonce_add_favorite', {id: annonce1.id}) }}"><i class="far fa-heart"></i></a>
+                    {% endfor %}
+                {% else %}
+                        <i class="far fa-heart"></i>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

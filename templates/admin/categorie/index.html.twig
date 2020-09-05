@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Manage Categories{% endblock %}
+
+{% block body %}
+    <h1>Manage Categories</h1>
+    <a href="{{ path("admin_categorie_ajout") }}" class="btn shadow-1 rounded-1 blue">Add Categories</a>
+    <table class="table striped">
+        <thead>
+            <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Parent</th>
+            <th>Actions</th>
+            </tr>
+        </thead>
+        {% for categorie in categorie %}
+        <tbody>
+            <tr>
+            <td>{{categorie.id}}</td>
+            <td>{{categorie.name}}</td>
+            <td>{{categorie.parent}}</td>
+            <td class="text-center"><a href="{{ path("admin_categorie_modify", {id: categorie.id}) }}" class="btn shadow-1 rounded-1 blue">Edit</a></td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+    
+{% endblock %}

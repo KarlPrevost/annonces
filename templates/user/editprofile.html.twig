@@ -1,0 +1,10 @@
+{% extends 'user.html.twig' %}
+{% block title %} Edit your profile - {{ app.user.firstname }}{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="col xs4">
+            <h1>Edit your Profile</h1>
+            {{ form(form) }}
+        </div>    
+    </div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'user.html.twig' %}
+
+{% block title %}Post an Ad{% endblock %}
+
+{% block body %}
+{% if app.request.attributes.get('_route') == 'user_annonce_edit' %}
+    <h1>Modify Ad</h1>
+{% else %}
+    <h1>Post a new Add</h1>
+{% endif %}
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    {# Si la route est "annonces_edit on affiche les images #}
+	{% if app.request.attributes.get('_route') == 'user_annonce_edit' %}
+        <h2>Images</h2>
+        {% for image in annonce.image %}
+            <div>
+                <img src="{{ asset('/uploads/' ~ image.name) }}" alt="" width="150">
+
+                {# On ajoute un lien permettant de supprimer une image (sera géré en Ajax) #}
+                <a href="{{ path('annonce_delete_image', {id: image.id})}}" data-delete data-token="{{ csrf_token('delete' ~ image.id )}}">Delete</a>
+            </div>
+        {% endfor %}
+    {% endif %}
+{{ form_end(form) }}
+{# {{ form(form) }} #}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/image.js') }}"></script>
+{% endblock %}
